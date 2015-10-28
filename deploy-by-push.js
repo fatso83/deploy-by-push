@@ -43,8 +43,8 @@ function loadConfig(path_to_configuration) {
     try {
         userConfig = fse.readJSONFileSync(path_to_configuration);
     } catch (error) {
-        console.log('Did not find the configuration file: ' + path_to_configuration);
-        console.log('Are you outside of a project directory, or is the config file missing?');
+        console.log('Got an error reading the configuration file (' + path_to_configuration + '): ', error);
+        console.log('Are you outside of a project directory, is the config file missing, or perhaps not valid JSON?');
         process.exit(1);
     }
 
@@ -234,7 +234,7 @@ mktemp.createDir('.tmpXXXXXXX')
         }
     })
     .then(function () {
-        treeish = program.commit || environmentConfig.src.branch;
+        treeish = program.commit || environmentConfig.src.treeish;
         logger.info('Checking out ' + treeish);
         return checkout(treeish, {cwd: tmpDir});
     })
